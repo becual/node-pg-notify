@@ -1,0 +1,10 @@
+# PostgreSQL database service configuration
+  db:
+    container_name: node_pg_notify_db
+    image: postgres
+    volumes:
+      - ./storage/postgres/data:/var/lib/postgresql/data
+    env_file:
+      - ./.env      
+    ports:
+      - "5432:5432"
