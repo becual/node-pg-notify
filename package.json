@@ -10,14 +10,32 @@
   "scripts": {
     "db:up": "docker-compose up -d db",
     "db:stop": "docker-compose stop db",
-    "test": "node -r dotenv/config node_modules/.bin/jest --watchAll"
+    "test": "node -r dotenv/config node_modules/.bin/jest --watch --runInBand"
   },
   "dependencies": {
     "chalk": "^2.3.2",
-    "pg": "^7.4.1"
+    "pg": "^7.4.1",
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "dotenv": "^5.0.1",
     "jest": "^22.4.2"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "./node_modules/",
+      "./output/",
+      "./storage/"
+    ],
+    "testPathIgnorePatterns": [
+      "./node_modules/",
+      "./output/",
+      "./storage/"
+    ],
+    "watchPathIgnorePatterns": [
+      "./node_modules/",
+      "./output/",
+      "./storage/"
+    ]
   }
 }
