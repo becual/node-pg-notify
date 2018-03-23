@@ -1,9 +1,10 @@
 const { Client } = require('pg');
+const channel = 'notify_table_change_channel';
 const table_name = 'notify_table_change';
 const fne = require('../functionManager/functionExist')(table_name);
-const fnc = require('../functionManager/createFunction')(table_name);
+const fnc = require('../functionManager/createFunction')(channel, table_name);
 const fnd = require('../functionManager/deleteFunction')(table_name);
-const ofn = require('../functionManager')(table_name);
+const ofn = require('../functionManager')(channel, table_name);
 const client = new Client({
     connectionString: process.env.PG_CONNECTION_STRING
 });

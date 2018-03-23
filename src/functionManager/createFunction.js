@@ -1,22 +1,33 @@
 const util = require('util');
-const sqlCreateFunction = (fn) => {
+const sqlCreateFunction = (channel, fn) => {
     return `
         CREATE OR REPLACE FUNCTION ${fn}() RETURNS trigger AS $$
         DECLARE
-          id bigint;
+          data json;
+          notification json;
         BEGIN
-          IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
-            id = NEW.id;
+
+          IF (TG_OP = 'DELETE') THEN
+            data = row_to_json(OLD);
           ELSE
-            id = OLD.id;
+            data = row_to_json(NEW);
           END IF;
-          PERFORM pg_notify('table_update', json_build_object('table', TG_TABLE_NAME, 'id', id, 'type', TG_OP)::text);
-          RETURN NEW;
+
+          notification = json_build_object(
+            'type', TG_OP,
+            'dateTime', clock_timestamp(),
+            'table', TG_TABLE_NAME::text,
+            'schema', TG_TABLE_SCHEMA::text,
+            'data', data
+          );
+
+          PERFORM pg_notify('${channel}', notification::text);
+          RETURN NULL;
         END;
         $$ LANGUAGE plpgsql;
         `;
 };
 
-module.exports = functionName => async client => {
-    await client.query(sqlCreateFunction(functionName));
+module.exports = (channel, functionName) => async client => {
+    await client.query(sqlCreateFunction(channel, functionName));
 };

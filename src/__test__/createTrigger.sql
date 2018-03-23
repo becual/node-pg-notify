@@ -1,0 +1,4 @@
+CREATE OR REPLACE TRIGGER notify_table_change_on_films
+AFTER INSERT OR UPDATE OR DELETE
+ON films
+FOR EACH ROW EXECUTE PROCEDURE notify_table_change;
