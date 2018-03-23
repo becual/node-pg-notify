@@ -1,4 +1,3 @@
-const util = require('util');
 const sqlCreateFunction = (channel, fn) => {
     return `
         CREATE OR REPLACE FUNCTION ${fn}() RETURNS trigger AS $$
