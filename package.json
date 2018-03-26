@@ -10,7 +10,7 @@
   "scripts": {
     "db:up": "docker-compose up -d db",
     "db:stop": "docker-compose stop db",
-    "test": "node -r dotenv/config node_modules/.bin/jest --watch --runInBand"
+    "test": "node -r dotenv/config node_modules/.bin/jest --watchAll --runInBand"
   },
   "dependencies": {
     "chalk": "^2.3.2",

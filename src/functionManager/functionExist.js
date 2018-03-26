@@ -1,4 +1,3 @@
-const util = require('util');
 const R = require('ramda');
 const sqlGetAllFunctions = `SELECT p.oid::regprocedure
         FROM pg_proc p

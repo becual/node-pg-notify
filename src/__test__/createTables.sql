@@ -1,4 +1,4 @@
-CREATE TABLE films (
+CREATE TABLE IF NOT EXISTS films (
     code        char(5),
     title       varchar(40),
     did         integer,
@@ -8,26 +8,25 @@ CREATE TABLE films (
     CONSTRAINT production UNIQUE(date_prod)
 );
 
-CREATE TABLE distributors (
+CREATE TABLE IF NOT EXISTS distributors (
     did     integer,
     name    varchar(40),
     UNIQUE(name)
 );
 
-CREATE TABLE circles (
+CREATE TABLE IF NOT EXISTS circles (
     c circle,
     EXCLUDE USING gist (c WITH &&)
 );
 
-CREATE TABLE cinemas (
+CREATE TABLE IF NOT EXISTS cinemas (
         id serial,
         name text,
         location text
 );
 
-CREATE TYPE employee_type AS (name text, salary numeric);
-
-CREATE TABLE employees OF employee_type (
-    PRIMARY KEY (name),
-    salary WITH OPTIONS DEFAULT 1000
+CREATE TABLE IF NOT EXISTS some_table (
+        id serial,
+        name text,
+        location text
 );

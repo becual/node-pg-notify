@@ -1,18 +1,31 @@
 const { Client } = require('pg');
+const fs = require('fs');
 const functionName = 'notify_table_change_channel';
-const triggerName = 'notify_table_change_on_films';
+const triggerName = 'notify_table_change_channel_on_films';
 const badTriggerName = 'un_trigger_que_no_existe';
 const tableName = 'films';
+const channel = 'notify_table_change_channel';
 const triggerExist = require('../triggerManager/triggerExist');
+const triggerCreate = require('../triggerManager/createTrigger');
+const fnc = require('../functionManager/createFunction')(channel, functionName);
 const client = new Client({
     connectionString: process.env.PG_CONNECTION_STRING
 });
 
 beforeAll( async ()=> {
     await client.connect();
+    const createTable = fs.readFileSync(`${__dirname}/createTables.sql`, 'utf-8');
+    await client.query(createTable);
+    await fnc(client);
+    try {await triggerCreate(functionName, tableName)(client);}
+    catch(e){console.info('Error en beforeAll', e);};
 });
 
 afterAll( async () => {
+    await client.query(`DROP TRIGGER ${triggerName} on ${tableName}`);
+    const deleteTable = fs.readFileSync(`${__dirname}/dropTables.sql`, 'utf-8');
+    const fnd = require('../functionManager/deleteFunction')(functionName);
+    await client.query(deleteTable);
     await client.end();
 });
 
