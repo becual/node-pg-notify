@@ -36,6 +36,11 @@
       "./node_modules/",
       "./output/",
       "./storage/"
+    ],
+    "modulePathIgnorePatterns": [
+      "./node_modules/",
+      "./output/",
+      "./storage/"
     ]
   }
 }
