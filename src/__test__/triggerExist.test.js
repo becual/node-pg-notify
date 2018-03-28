@@ -17,7 +17,7 @@ beforeAll( async ()=> {
     const createTable = fs.readFileSync(`${__dirname}/createTables.sql`, 'utf-8');
     await client.query(createTable);
     await fnc(client);
-    try {await triggerCreate(tableName, functionName)(client);}
+    try {await triggerCreate(triggerName, tableName, functionName)(client);}
     catch(e){console.info('Error en beforeAll', e);};
 });
 
