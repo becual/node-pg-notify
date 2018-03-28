@@ -6,7 +6,8 @@ const forceOrCreate = (force = false, channel, functionName) => async (client) =
     const exist = await functionExist(functionName)(client);
     if (!exist) {
         await functionCreate(channel, functionName)(client);
-    } else if (force) {
+    }
+    else if (force) {
         await functionDelete(functionName)(client);
         await functionCreate(channel, functionName)(client);
     }
