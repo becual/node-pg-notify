@@ -12,9 +12,9 @@ const client = new Client({
 module.exports = () => {
     return client.connect()
         .then(() => {
-            console.log(chalk.green(`=> Connected to ${process.env.POSTGRES_HOST}`));
+            console.info(chalk.green(`=> Connected to ${process.env.POSTGRES_HOST}`));
             return client;
         })
-        .catch(err => console.log(chalk.red(`=> Error ${err}`)));
+        .catch(err => console.info(chalk.red(`=> Error ${err}`)));
 };
 

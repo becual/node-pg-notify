@@ -5,6 +5,8 @@ module.exports = async (dbConfig, tableList) => {
     const result = await getTables(dbConfig);
     const diff = R.difference(tableList, result);
     const largo = diff.length;
-    if(largo > 0)
-        throw new Error(`The table${largo === 1 ? '' : 's'} ${diff.join(', ')} ${largo === 1 ? 'is' : 'are'} not part of the database`);
+    if(0 < largo){
+        /* eslint-disable-next-line no-alert */
+        throw new Error(`The table${1 === largo ? '' : 's'} ${diff.join(', ')} ${1 === largo ? 'is' : 'are'} not part of the database`);
+    }
 };

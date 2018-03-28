@@ -6,7 +6,8 @@ const forceOrCreate = (force = false, triggerName, tableName, functionName) => a
     const exist = await triggerExist(triggerName, tableName, client);
     if (!exist) {
         await triggerCreate(triggerName, tableName, functionName)(client);
-    } else if (force) {
+    }
+    else if (force) {
         await triggerDelete(triggerName)(client);
         await triggerCreate(triggerName, tableName, functionName)(client);
     }
@@ -14,7 +15,7 @@ const forceOrCreate = (force = false, triggerName, tableName, functionName) => a
 
 module.exports = (tableName,
     functionName = 'notify_table_change') => {
-        const triggerName = `${functionName}_on_${triggerName}`;
+    const triggerName = `${functionName}_on_${tableName}`;
     return {
         create: forceOrCreate(false, triggerName, tableName, functionName),
         force: forceOrCreate(true, triggerName, tableName, functionName)

@@ -7,6 +7,5 @@ const sqlGetAllFunctions = `SELECT p.oid::regprocedure
 
 module.exports = functionName => async client => {
     let res = await client.query(sqlGetAllFunctions);
-    return R.reduce((acc, elem) => acc || elem.oid === `${functionName}()`,
-                    false, res.rows);
+    return R.reduce((acc, elem) => acc || elem.oid === `${functionName}()`, false, res.rows);
 };
