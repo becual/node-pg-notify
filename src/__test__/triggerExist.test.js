@@ -1,3 +1,4 @@
+/* global beforeAll afterAll expect */
 const { Client } = require('pg');
 const fs = require('fs');
 const functionName = 'notify_table_change_channel';
@@ -17,14 +18,17 @@ beforeAll( async ()=> {
     const createTable = fs.readFileSync(`${__dirname}/createTables.sql`, 'utf-8');
     await client.query(createTable);
     await fnc(client);
-    try {await triggerCreate(triggerName, tableName, functionName)(client);}
-    catch(e){console.info('Error en beforeAll', e);};
+    try {
+        await triggerCreate(triggerName, tableName, functionName)(client);
+    }
+    catch(e){
+        console.info('Error en beforeAll', e);
+    }
 });
 
 afterAll( async () => {
     await client.query(`DROP TRIGGER ${triggerName} on ${tableName}`);
     const deleteTable = fs.readFileSync(`${__dirname}/dropTables.sql`, 'utf-8');
-    const fnd = require('../functionManager/deleteFunction')(functionName);
     await client.query(deleteTable);
     await client.end();
 });

@@ -1,3 +1,4 @@
+/* global beforeAll afterAll expect */
 const { Client } = require('pg');
 const getAllTables = require('../getAllTablesInDatabase');
 const client = new Client({
@@ -26,7 +27,8 @@ test('Get All Tables', async () => {
     const result = await getAllTables(dbConfig);
     expect(result).toBeInstanceOf(Array);
     expect(result.length).toBe(5);
-    R.map((elem) => {
-        expect(typeof elem).toBe("string");
-    },result);
+    R.map( elem => {
+        expect(typeof elem).toBe('string');
+        return elem;
+    }, result);
 });
