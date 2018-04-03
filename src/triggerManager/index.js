@@ -2,22 +2,19 @@ const triggerExist = require('./triggerExist');
 const triggerCreate = require('./createTrigger');
 const triggerDelete = require('./deleteTrigger');
 
-const forceOrCreate = (force = false, triggerName, tableName, functionName) => async (client) => {
+const forceOrCreate = (force = false) => async (tableName, functionName, client) => {
+    const triggerName = `${functionName}_on_${tableName}`;
     const exist = await triggerExist(triggerName, tableName, client);
     if (!exist) {
         await triggerCreate(triggerName, tableName, functionName)(client);
     }
     else if (force) {
-        await triggerDelete(triggerName)(client);
+        await triggerDelete(triggerName, tableName)(client);
         await triggerCreate(triggerName, tableName, functionName)(client);
     }
 };
 
-module.exports = (tableName,
-    functionName = 'notify_table_change') => {
-    const triggerName = `${functionName}_on_${tableName}`;
-    return {
-        create: forceOrCreate(false, triggerName, tableName, functionName),
-        force: forceOrCreate(true, triggerName, tableName, functionName)
-    };
+module.exports = {
+    create: forceOrCreate(false),
+    force: forceOrCreate(true)
 };

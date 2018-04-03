@@ -5,10 +5,12 @@ const functionName = 'notify_table_change_channel';
 const triggerName = 'notify_table_change_channel_on_films';
 const badTriggerName = 'un_trigger_que_no_existe';
 const tableName = 'films';
+const tableCinema = 'cinemas';
 const channel = 'notify_table_change_channel';
 const triggerExist = require('../triggerManager/triggerExist');
 const triggerCreate = require('../triggerManager/createTrigger');
 const fnc = require('../functionManager/createFunction')(channel, functionName);
+const tg = require('../triggerManager');
 const client = new Client({
     connectionString: process.env.PG_CONNECTION_STRING
 });
@@ -41,4 +43,18 @@ test('Trigger must exist', async () => {
 test('Trigger must not exist', async () => {
     const result = await triggerExist(badTriggerName, tableName, client);
     expect(result).toBe(false);
+});
+
+test('Object must create trigger', async () => {
+    await tg.create(tableCinema, functionName, client);
+    const toFind = `${functionName}_on_${tableCinema}`;
+    const result = await triggerExist(toFind, tableCinema, client);
+    expect(result).toBe(true);
+});
+
+test('Object must force create trigger', async () => {
+    await tg.force(tableCinema, functionName, client);
+    const toFind = `${functionName}_on_${tableCinema}`;
+    const result = await triggerExist(toFind, tableCinema, client);
+    expect(result).toBe(true);
 });

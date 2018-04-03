@@ -1,5 +1,5 @@
-const sqlDeleteFunction = (tn) => `DROP TRIGGER ${tn};`;
+const sqlDeleteFunction = (tgn, tn) => `DROP TRIGGER ${tgn} ON ${tn};`;
 
-module.exports = triggerName => async client => {
-    await client.query(sqlDeleteFunction(triggerName));
+module.exports = (triggerName, tableName) => async client => {
+    await client.query(sqlDeleteFunction(triggerName, tableName));
 };
