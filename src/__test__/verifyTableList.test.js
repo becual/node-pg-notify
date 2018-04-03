@@ -19,13 +19,8 @@ afterAll( async () => {
 });
 
 test('Not all tables are in the database', async () => {
-    const dbConfig = {
-        client,
-        schema: 'public'
-    };
-
     try{
-        await verifyTableList(dbConfig, ['La_la_la']);
+        await verifyTableList(client, 'public', ['La_la_la']);
     }
     catch (e){
         expect(e).toBeInstanceOf(Error);
@@ -34,13 +29,8 @@ test('Not all tables are in the database', async () => {
 });
 
 test('Plural Not all tables are in the database', async () => {
-    const dbConfig = {
-        client,
-        schema: 'public'
-    };
-
     try{
-        await verifyTableList(dbConfig, ['La_la_la', 'lo_lo_lo']);
+        await verifyTableList(client, 'public', ['La_la_la', 'lo_lo_lo']);
     }
     catch (e){
         expect(e).toBeInstanceOf(Error);
@@ -49,13 +39,8 @@ test('Plural Not all tables are in the database', async () => {
 });
 
 test('Not all tables exist', async () => {
-    const dbConfig = {
-        client,
-        schema: 'public'
-    };
-
     try{
-        await verifyTableList(dbConfig, ['films', 'distributors', 'La_la_la', 'lo_lo_lo']);
+        await verifyTableList(client, 'public', ['films', 'distributors', 'La_la_la', 'lo_lo_lo']);
     }
     catch (e){
         expect(e).toBeInstanceOf(Error);
@@ -64,13 +49,8 @@ test('Not all tables exist', async () => {
 });
 
 test('All tables exist', async () => {
-    const dbConfig = {
-        client,
-        schema: 'public'
-    };
-
     try{
-        await verifyTableList(dbConfig, ['films', 'distributors']);
+        await verifyTableList(client, 'public', ['films', 'distributors']);
     }
     catch (e){
         expect(e).toBeFalsy();

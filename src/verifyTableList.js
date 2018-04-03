@@ -1,8 +1,8 @@
 const getTables = require('./getAllTablesInDatabase');
 const R = require('ramda');
 
-module.exports = async (dbConfig, tableList) => {
-    const result = await getTables(dbConfig);
+module.exports = async (client, schema='public', tableList) => {
+    const result = await getTables(client, schema);
     const diff = R.difference(tableList, result);
     const largo = diff.length;
     if(0 < largo){

@@ -20,11 +20,7 @@ afterAll( async () => {
 });
 
 test('Get All Tables', async () => {
-    const dbConfig = {
-        client,
-        schema: 'public'
-    };
-    const result = await getAllTables(dbConfig);
+    const result = await getAllTables(client, 'public');
     expect(result).toBeInstanceOf(Array);
     expect(result.length).toBe(5);
     R.map( elem => {
