@@ -5,10 +5,10 @@ A module to config pg-notify in a database for a list of tables, automatically c
 
 <a name="module_pg-notify.create"></a>
 
-### pg-notify.create ⇒ <code>Promise</code>
+### pgNotify.create ⇒ <code>Promise</code>
 Create the functions and triggers to configure pg-notify for a list of tables.
 
-**Kind**: static property of [<code>pg-notify</code>](#module_pg-notify)  
+**Kind**: static property of [<code>pgNotify</code>](#module_pg-notify)  
 **Returns**: <code>Promise</code> - A promise that will implement the pg-notify config.  
 
 | Param | Type | Default | Description |
@@ -21,7 +21,7 @@ Create the functions and triggers to configure pg-notify for a list of tables.
 
 **Example**  
 ```js
-const pg-notify = require('pg-notify');
+const pgNotify = require('pg-notify');
 const pg = require('pg');
 const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
@@ -30,19 +30,19 @@ await pg-notify.create(client, tableList);
 ```
 **Example**  
 ```js
-const pg-notify = require('pg-notify');
+const pgNotify = require('pg-notify');
 const pg = require('pg');
 const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
 const tableList = ['customer', 'order', 'order_detail'];
-await pg-notify.create(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
+await pgNotify.create(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
 ```
 **Example**  
 ```js
-const pg-notify = require('pg-notify');
+const pgNotify = require('pg-notify');
 const pg = require('pg');
 const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
 const tableList = ['customer', 'order', 'order_detail'];
-await pg-notify.create(client, tableList, null, null, 'justChannelName');
+await pgNotify.create(client, tableList, null, null, 'justChannelName');
 ```
