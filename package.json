@@ -10,15 +10,16 @@
   "scripts": {
     "db:up": "docker-compose up -d db",
     "db:stop": "docker-compose stop db",
-    "test": "node -r dotenv/config node_modules/.bin/jest --watchAll --runInBand"
+    "test": "node -r dotenv/config node_modules/.bin/jest --watchAll --runInBand",
+    "generate:readme": "jsdoc2md src/index.js > README.md"
   },
   "dependencies": {
-    "chalk": "^2.3.2",
     "ramda": "^0.25.0"
   },
   "devDependencies": {
     "dotenv": "^5.0.1",
-    "jest": "^22.4.2"
+    "jest": "^22.4.2",
+    "jsdoc-to-markdown": "^4.0.1"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
