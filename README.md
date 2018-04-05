@@ -21,28 +21,52 @@ Create the functions and triggers to configure pg-notify for a list of tables.
 
 **Example**  
 ```js
-const pgNotify = require('pg-notify');
+const pgNotify = require('@becual/pg-notify');
 const pg = require('pg');
-const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
-const tableList = ['customer', 'order', 'order_detail'];
-await pgNotify.config(client, tableList);
+(async () => {
+
+    const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
+    await client.connect();
+
+    const tableList = ['customer', 'order', 'order_detail'];
+    await pgNotify.config(client, tableList);
+
+    await client.end();
+
+})();
 ```
 **Example**  
 ```js
-const pgNotify = require('pg-notify');
+const pgNotify = require('@becual/pg-notify');
 const pg = require('pg');
-const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
-const tableList = ['customer', 'order', 'order_detail'];
-await pgNotify.config(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
+(async () => {
+
+    const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
+    await client.connect();
+
+    const tableList = ['customer', 'order', 'order_detail'];
+    await pgNotify.config(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
+
+    await client.end();
+
+})();
 ```
 **Example**  
 ```js
-const pgNotify = require('pg-notify');
+const pgNotify = require('@becual/pg-notify');
 const pg = require('pg');
-const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
-const tableList = ['customer', 'order', 'order_detail'];
-await pgNotify.config(client, tableList, null, null, 'justChannelName');
+(async () => {
+
+    const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
+    await client.connect();
+
+    const tableList = ['customer', 'order', 'order_detail'];
+    await pgNotify.config(client, tableList, null, null, 'justChannelName');
+
+    await client.end();
+
+})();
 ```
