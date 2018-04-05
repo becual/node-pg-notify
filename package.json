@@ -1,5 +1,5 @@
 {
-  "name": "pg-notify",
+  "name": "@becual/pg-notify",
   "version": "1.0.0",
   "description": "Postgres pg notify subscription system",
   "main": "./src/index.js",
