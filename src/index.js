@@ -28,6 +28,29 @@ module.exports = {
      * @returns {Promise} A promise that will implement the pg-notify config.
      *
      * @example
+     *  (async () => {
+     *
+     *      const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
+     *      const tableList = ['customer', 'order_detail'];
+     *
+     *      try {
+     *          // Try to generate configuration
+     *          await client.connect();
+     *          await pgNotify.config(client, tableList);
+     *          console.info('PG_NOTIFY config created success!');
+     *      }
+     *      catch(error) {
+     *          // Show errors
+     *          console.info(error.message);
+     *      }
+     *      finally {
+     *          // Close connection when ends
+     *          await client.end();
+     *      };
+     *
+     *  })();
+     *
+     * @example
      * const pgNotify = require('@becual/pg-notify');
      * const pg = require('pg');
      *

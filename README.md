@@ -21,6 +21,30 @@ Create the functions and triggers to configure pg-notify for a list of tables.
 
 **Example**  
 ```js
+(async () => {
+
+     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
+     const tableList = ['customer', 'order_detail'];
+
+     try {
+         // Try to generate configuration
+         await client.connect();
+         await pgNotify.config(client, tableList);
+         console.info('PG_NOTIFY config created success!');
+     }
+     catch(error) {
+         // Show errors
+         console.info(error.message);
+     }
+     finally {
+         // Close connection when ends
+         await client.end();
+     };
+
+ })();
+```
+**Example**  
+```js
 const pgNotify = require('@becual/pg-notify');
 const pg = require('pg');
 
