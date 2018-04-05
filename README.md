@@ -26,7 +26,7 @@ const pg = require('pg');
 const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
 
 const tableList = ['customer', 'order', 'order_detail'];
-await pg-notify.create(client, tableList);
+await pgNotify.create(client, tableList);
 ```
 **Example**  
 ```js
