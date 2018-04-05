@@ -36,7 +36,8 @@ module.exports = {
      *     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
      *     await client.connect();
      *
-     *     const tableList = ['customer', 'order', 'order_detail'];
+     *     // Must create tables first
+     *     const tableList = ['customer', 'order_detail'];
      *     await pgNotify.config(client, tableList);
      *
      *     await client.end();
@@ -51,7 +52,8 @@ module.exports = {
      *     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
      *     await client.connect();
      *
-     *     const tableList = ['customer', 'order', 'order_detail'];
+     *     // Must create tables first
+     *     const tableList = ['customer', 'order_detail'];
      *     await pgNotify.config(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
      *
      *     await client.end();
@@ -66,7 +68,8 @@ module.exports = {
      *     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
      *     await client.connect();
      *
-     *     const tableList = ['customer', 'order', 'order_detail'];
+     *     // Must create tables first
+     *     const tableList = ['customer', 'order_detail'];
      *     await pgNotify.config(client, tableList, null, null, 'justChannelName');
      *
      *     await client.end();
