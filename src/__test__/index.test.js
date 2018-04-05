@@ -26,7 +26,7 @@ afterAll( async () => {
 });
 
 test('Config with create', async () => {
-    await index.create(client, tableList);
+    await index.config(client, tableList);
 });
 /*
 test('Config with force', async () => {

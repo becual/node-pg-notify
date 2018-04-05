@@ -28,29 +28,29 @@ module.exports = {
      * @returns {Promise} A promise that will implement the pg-notify config.
      *
      * @example
-     * const pg-notify = require('pg-notify');
+     * const pgNotify = require('pg-notify');
      * const pg = require('pg');
      * const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
      *
      * const tableList = ['customer', 'order', 'order_detail'];
-     * await pg-notify.create(client, tableList);
+     * await pgNotify.config(client, tableList);
      *
      * @example
-     * const pg-notify = require('pg-notify');
+     * const pgNotify = require('pg-notify');
      * const pg = require('pg');
      * const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
      *
      * const tableList = ['customer', 'order', 'order_detail'];
-     * await pg-notify.create(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
+     * await pgNotify.config(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
      *
      * @example
-     * const pg-notify = require('pg-notify');
+     * const pgNotify = require('pg-notify');
      * const pg = require('pg');
      * const client = new Client({connectionString: process.env.PG_CONNECTION_STRING});
      *
      * const tableList = ['customer', 'order', 'order_detail'];
-     * await pg-notify.create(client, tableList, null, null, 'justChannelName');
+     * await pgNotify.config(client, tableList, null, null, 'justChannelName');
      */
-    create: configNotify('create')
+    config: configNotify('create')
     // force: configNotify('force')
 };
