@@ -1,6 +1,9 @@
 const verifyTables = require('./verifyTableList');
 const functionManager = require('./functionManager');
 const triggerManager = require('./triggerManager');
+const EventEmitter = require('events');
+
+const pgEmitter = new EventEmitter();
 
 const configNotify = type => async (client,
     tableList,
@@ -13,6 +16,23 @@ const configNotify = type => async (client,
         await triggerManager[type](table, functionName, client);
     }
 };
+
+
+const subscribe = async (client, tables) => {
+    await configNotify('create')(client, tables);
+
+    client.on('notification', message => {
+        const payload = JSON.parse(message.payload);
+        if (tables.includes(payload.table)) {
+            pgEmitter.emit(payload.type, payload);
+        }
+    });
+
+    client.query('LISTEN notify_table_change_channel');
+
+    return pgEmitter;
+};
+
 /**
  * A module to config pg-notify in a database for a list of tables, automatically config functions and triggers required.
  * @module pg-notify
@@ -99,7 +119,8 @@ module.exports = {
      *
      * })();
      */
-    
-    config: configNotify('create')
+
+    config: configNotify('create'),
+    subscribe
     // force: configNotify('force')
 };

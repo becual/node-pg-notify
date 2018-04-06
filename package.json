@@ -11,7 +11,8 @@
     "db:up": "docker-compose up -d db",
     "db:stop": "docker-compose stop db",
     "test": "node -r dotenv/config node_modules/.bin/jest --watchAll --runInBand",
-    "g:r": "jsdoc2md src/index.js > README.md"
+    "g:r": "jsdoc2md src/index.js > README.md",
+    "test:sub": "node -r dotenv/config node_modules/.bin/jest subscribe.test.js  --watchAll --runInBand"
   },
   "dependencies": {
     "ramda": "^0.25.0"

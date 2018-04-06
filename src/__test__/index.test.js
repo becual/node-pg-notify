@@ -28,6 +28,7 @@ afterAll( async () => {
 test('Config with create', async () => {
     await index.config(client, tableList);
 });
+
 /*
 test('Config with force', async () => {
     await index.force(client, tableList);
