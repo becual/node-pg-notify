@@ -17,7 +17,7 @@ beforeAll(async () => {
 test.only('Must subscribe to a table', async done => {
     const pgEmiter = await pgNotify.subscribe(client, ['customer']);
 
-    pgEmiter.on('INSERT', data => {
+    pgEmiter.on('INSERT', data => {        
         console.info('data at insert -> ', data);
         done();
     });

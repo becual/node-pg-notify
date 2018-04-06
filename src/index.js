@@ -19,17 +19,28 @@ const configNotify = type => async (client,
 
 
 const subscribe = async (client, tables) => {
+
+    // Generate the functions and notifiers
     await configNotify('create')(client, tables);
 
+    // Listen for messages
     client.on('notification', message => {
+
+        // Parse json payload
         const payload = JSON.parse(message.payload);
+
+        // filter by the especified tables
         if (tables.includes(payload.table)) {
+            
+            // Emit the action type (INSERT, DELETE, UPDATE) with the payload
             pgEmitter.emit(payload.type, payload);
         }
     });
 
+    // Needed to start to listen @TODO, no idea how to stop that
     client.query('LISTEN notify_table_change_channel');
 
+    // Send emitter to outside
     return pgEmitter;
 };
 
