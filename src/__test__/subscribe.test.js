@@ -2,14 +2,18 @@
 
 jest.setTimeout(10000);
 
-const { Client } = require('pg');
+const {
+    Client
+} = require('pg');
 const pgNotify = require('..');
 
-const client = new Client({
-    connectionString: process.env.PG_CONNECTION_STRING
-});
+let client = null;
 
 beforeAll(async () => {
+    client = new Client({
+        connectionString: process.env.PG_CONNECTION_STRING
+    });
+
     await client.connect();
 
     await client.query(`CREATE TABLE IF NOT EXISTS customer (
@@ -19,13 +23,11 @@ beforeAll(async () => {
     )`);
 });
 
-
 test.only('Must subscribe to a table and fire insert event ', async done => {
     const pgEmiter = await pgNotify.subscribe(client, ['customer']);
 
     pgEmiter.on('INSERT', data => {
         console.info('Data at insert event -> ', data);
-        pgNotify.unsubscribe(client, []);
         done();
     });
 
@@ -36,6 +38,15 @@ test.only('Must subscribe to a table and fire insert event ', async done => {
 
 
 afterAll(async () => {
-    await client.query('DROP TRIGGER notify_table_change on customer');
-    await client.query('DROP TABLE customer');
+    console.info('In the after all');
+    try {
+        await client.query('DROP TABLE customer');
+        await client.query('DROP FUNCTION notify_table_change()');
+        await pgNotify.unsubscribe(client);
+    }
+    catch (e){
+        console.info('Error cached', e);
+    }
+    console.info('After unsuscribe');
+    await client.end();
 });
