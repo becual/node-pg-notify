@@ -5,7 +5,7 @@ const tableList = ['films', 'distributors', 'circles', 'cinemas', 'some_table'];
 const client = new Client({
     connectionString: process.env.PG_CONNECTION_STRING
 });
-const index = require('../index');
+const pgNotify = require('../index');
 
 beforeAll( async ()=> {
     await client.connect();
@@ -26,7 +26,7 @@ afterAll( async () => {
 });
 
 test('Config with create', async () => {
-    await index.config(client, tableList);
+    await pgNotify(client).config(tableList);
 });
 
 /*

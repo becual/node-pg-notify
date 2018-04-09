@@ -24,7 +24,7 @@ beforeAll(async () => {
 });
 
 test.only('Must subscribe to a table and fire insert event ', async done => {
-    const pgEmiter = await pgNotify.subscribe(client, ['customer']);
+    const pgEmiter = await pgNotify(client).subscribe(['customer']);
 
     pgEmiter.on('INSERT', data => {
         console.info('Data at insert event -> ', data);
@@ -42,11 +42,10 @@ afterAll(async () => {
     try {
         await client.query('DROP TABLE customer');
         await client.query('DROP FUNCTION notify_table_change()');
-        await pgNotify.unsubscribe(client);
+        await pgNotify(client).unsubscribe();
     }
     catch (e){
         console.info('Error cached', e);
     }
-    console.info('After unsuscribe');
     await client.end();
 });
