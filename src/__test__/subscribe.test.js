@@ -24,13 +24,14 @@ test.only('Must subscribe to a table and fire insert event ', async done => {
     const pgEmiter = await pgNotify.subscribe(client, ['customer']);
 
     pgEmiter.on('INSERT', data => {
-        console.info('data at insert event -> ', data);
+        console.info('Data at insert event -> ', data);
+        pgNotify.unsubscribe(client, []);
         done();
     });
 
     setTimeout(() => {
         client.query('INSERT INTO customer(name, location) values (\'pepe\', \'santiago\')');
-    }, 3000);
+    }, 1000);
 });
 
 

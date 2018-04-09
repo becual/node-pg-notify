@@ -44,6 +44,10 @@ const subscribe = async (client, tables) => {
     return pgEmitter;
 };
 
+const unsubscribe = async (client, tables) => {
+    await client.query('UNLISTEN notify_table_change_channel');
+    // await client.end();
+};
 /**
  * A module to config pg-notify in a database for a list of tables, automatically config functions and triggers required.
  * @module pg-notify
@@ -132,6 +136,7 @@ module.exports = {
      */
 
     config: configNotify('create'),
-    subscribe
+    subscribe,
+    unsubscribe
     // force: configNotify('force')
 };
