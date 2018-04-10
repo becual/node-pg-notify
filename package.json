@@ -1,11 +1,12 @@
 {
   "name": "@becual/pg-notify",
-  "version": "2.0.2",
-  "description": "Postgres pg notify subscription system",
+  "version": "2.0.3",
+  "description": "NodeJS PostgreSQL pg-notify subscription library",
   "main": "./src/index.js",
   "repository": "git@github.com:becual/node-pg-notify.git",
   "author": "Becual Technologies S.A <tecnologia@becual.com>",
   "license": "MIT",
+  "keywords": ["postgresql", "pg-notify", "notify", "subscription"],
   "private": false,
   "scripts": {
     "db:up": "docker-compose up -d db",
