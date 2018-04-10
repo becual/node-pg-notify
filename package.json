@@ -1,6 +1,6 @@
 {
   "name": "@becual/pg-notify",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Postgres pg notify subscription system",
   "main": "./src/index.js",
   "repository": "git@github.com:becual/node-pg-notify.git",
