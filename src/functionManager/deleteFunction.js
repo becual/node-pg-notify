@@ -1,5 +1,5 @@
-const sqlDeleteFunction = (fn) => `DROP FUNCTION ${fn};`;
+const sqlDeleteFunction = (schema, fn) => `DROP FUNCTION ${schema}.${fn};`;
 
-module.exports = functionName => async client => {
-    await client.query(sqlDeleteFunction(functionName));
+module.exports = (schema, functionName) => async client => {
+    await client.query(sqlDeleteFunction(schema, functionName));
 };

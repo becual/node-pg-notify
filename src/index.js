@@ -9,10 +9,12 @@ const configNotify = type => (client, configObject) => async tableList => {
     //Verify if all tables exist.
     await verifyTables(client, configObject.schema, tableList);
     //Config function to emit notify.
-    await functionManager(configObject.channelName, configObject.functionName)[type](client);
+    await functionManager(configObject.channelName,
+        configObject.schema,
+        configObject.functionName)[type](client);
     //For every table config trigger.
     for (const table of tableList) {
-        await triggerManager[type](table, configObject.functionName, client);
+        await triggerManager[type](configObject.schema, table, configObject.functionName, client);
     }
 };
 

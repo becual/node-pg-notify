@@ -1,6 +1,6 @@
-const sqlCreateFunction = (channel, fn) => {
+const sqlCreateFunction = (channel, schema, fn) => {
     return `
-        CREATE OR REPLACE FUNCTION ${fn}() RETURNS trigger AS $$
+        CREATE OR REPLACE FUNCTION ${schema}.${fn}() RETURNS trigger AS $$
         DECLARE
           data json;
           notification json;
@@ -27,6 +27,6 @@ const sqlCreateFunction = (channel, fn) => {
         `;
 };
 
-module.exports = (channel, functionName) => async client => {
-    await client.query(sqlCreateFunction(channel, functionName));
+module.exports = (channel, schema, functionName) => async client => {
+    await client.query(sqlCreateFunction(channel, schema, functionName));
 };

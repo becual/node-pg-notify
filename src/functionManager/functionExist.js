@@ -5,7 +5,10 @@ const sqlGetAllFunctions = `SELECT p.oid::regprocedure
         ON p.pronamespace = n.oid
         WHERE n.nspname NOT IN('pg_catalog', 'information_schema');`;
 
-module.exports = functionName => async client => {
+module.exports = (schema, functionName) => async client => {
     let res = await client.query(sqlGetAllFunctions);
-    return R.reduce((acc, elem) => acc || elem.oid === `${functionName}()`, false, res.rows);
+    const name = (sn, fn) => 'public' === sn ? `${fn}()` : `${sn}.${fn}()`;
+    return R.reduce((acc, elem) => acc || elem.oid === name(schema, functionName),
+        false,
+        res.rows);
 };
