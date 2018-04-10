@@ -39,6 +39,8 @@ const { Client }  = require('pg');
  (async () => {
      // Use your connection string
      const client = new Client({ connectionString: process.env.PG_CONNECTION_STRING });
+
+     // Choose your tables to listen
      const tables = ['customer', 'order_detail'];
 
     try {
@@ -48,7 +50,7 @@ const { Client }  = require('pg');
         // By default schema is public
         const sub = await pgNotify(client, {schema: 'mySchema'}).subscribe(tables);
 
-        // listen actions
+        // Listen for changes
         sub.on('INSERT', eventHandler);
         sub.on('UPDATE', eventHandler);
         sub.on('DELETE', eventHandler);
@@ -82,7 +84,7 @@ const { Client } = require('pg');
      const tableList = ['customer', 'order_detail'];
 
      try {
-         // Try to generate configuratio
+         // Try to generate configuration
          await client.connect();
          await pgNotify(client, {schema: 'mySchema'}).config(tableList);
      }
