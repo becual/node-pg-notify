@@ -3,6 +3,8 @@ const functionManager = require('./functionManager');
 const triggerManager = require('./triggerManager');
 const EventEmitter = require('events');
 
+
+
 const pgEmitter = new EventEmitter();
 
 const configNotify = type => (client, configObject) => async tableList => {
@@ -37,7 +39,7 @@ const subscribe = (client, configObject) => async tables => {
     return pgEmitter;
 };
 
-const unsubscribe = (client, configObject) => async ()=> {
+const unsubscribe = (client, configObject) => async () => {
     await client.query(`UNLISTEN ${configObject.channelName}`);
 };
 
@@ -55,103 +57,94 @@ const defaultPartialConfig = (dc) => {
     };
 };
 
+
+
+/**
+* Configure and subscribe to Postgres Notify automatically for a given set of tables.
+* @module pg-notify
+* @param {object} client - node-postgres Client instance
+* @param {object} configObject - Configuration object
+* @param {string} configObject.schema=public - Name of the schema where the tables exists.
+* @param {string} configObject.functionName=notify_table_change - Name of the function to use notify.
+* @param {string} configObject.channelName=notify_table_change_channel - Name of the channel where the function will notify.
+*/
+
 module.exports = (client, configObject = defaultConfig) => {
     const configurations = defaultPartialConfig(configObject);
     return {
-        config : configNotify('create')(client, configurations),
+        /**
+        * @method Subscribe to all database events of a given list of tables
+        * @param {string[]} tables - An array of table names to listen
+        * @returns {EventEmitter} A nodejs EventEmitter which emits when any of the listed tables changes.
+        *
+        * @example
+        *  const { Client }  = require('pg');
+        *  const pgNotify = require('@becual/pg-notify');
+        *
+        *  let eventHandler = evt => {
+        *      console.log(JSON.stringify(evt, null, 4));
+        *  };
+        *
+        *  (async () => {
+        *      // Use your connection string
+        *      const client = new Client({ connectionString: process.env.PG_CONNECTION_STRING });
+        *      const tables = ['customer', 'order_detail'];
+        *
+        *     try {
+        *         // Connect client
+        *         await client.connect();
+        *
+        *         // By default schema is public
+        *         const sub = await pgNotify(client, {schema: 'mySchema'}).subscribe(tables);
+        *
+        *         // listen actions
+        *         sub.on('INSERT', eventHandler);
+        *         sub.on('UPDATE', eventHandler);
+        *         sub.on('DELETE', eventHandler);
+        *     }
+        *     catch(error) {
+        *         console.log(error.message);
+        *     }
+        *     finally {
+        *         await client.end();
+        *     }
+        *  })();
+        */
         subscribe: subscribe(client, configurations),
+
+
+        /**
+        * @method Create the functions and triggers to configure pg-notify.
+        * @param {string[]} tables - The list of tables to create pg notify configuration.
+        * @returns {Promise} A promise that will implement the pg-notify config.
+        *
+        * @example
+        *  const { Client } = require('pg');
+        *  const pgNotify = require('@becual/pg-notify');
+        *
+        *  (async () => {
+        *
+        *      const client = new Client({ connectionString: process.env.PG_CONNECTION_STRING });
+        *      const tableList = ['customer', 'order_detail'];
+        *
+        *      try {
+        *          // Try to generate configuratio
+        *          await client.connect();
+        *          await pgNotify(client, {schema: 'mySchema'}).config(tableList);
+        *      }
+        *      catch(error) {
+        *          // Show errors
+        *          console.log(error.message);
+        *      }
+        *      finally {
+        *          // Close connection
+        *          await client.end();
+        *      }
+        *  })();
+        */
+
+        config: configNotify('create')(client, configurations),
+
         unsubscribe: unsubscribe(client, configurations)
     };
 };
-/**
- * A module to config pg-notify in a database for a list of tables, automatically config functions and triggers required.
- * @module pg-notify
- */
-// module.exports = {
-/**
- * Create the functions and triggers to configure pg-notify for a list of tables.
- * @param {object} client - A pg client connected to the database.
- * @param {string[]} tableList - The list of tables to notify.
- * @param {string} schema=public - Name of the schema where the tables exists.
- * @param {string} functionName=notify_table_change - Name of the function to use notify.
- * @param {string} channelName=notify_table_change_channel - Name of the channel where the function notify.
- * @returns {Promise} A promise that will implement the pg-notify config.
- *
- * @example
- *  (async () => {
- *
- *      const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
- *      const tableList = ['customer', 'order_detail'];
- *
- *      try {
- *          // Try to generate configurationempoderados
- *          await client.connect();const index =
- *          await pgNotify.config(client, tableList);
- *          console.info('PG_NOTIFY config created{schema:'public', channelName:'notify_table_channel'} success!');
- *      }
- *      catch(error) {
- *          // Show errors
- *          console.info(error.message);
- *      }
- *      finally {
- *          // Close connection when enconst index = ds
- *          await client.end();
- *      };
- *
- *  })();
- *
- * @example
- * const pgNotify = require('@becual/pg-notify');
- * const pg = require('pg');
- *
- * (async () => {const index =
- *
- *     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
- *     await client.connect();
- *
- *     // Must create tables first
- *     const tableList = ['customer', 'order_detail'];
- *     await pgNotify.config(client, tableList);
- *
- *     await client.end();
- *
- * })();
- * @example
- * const pgNotify = require('@becual/pg-notify');
- * const pg = require('pg');
- *
- * (async () => {
- *
- *     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
- *     await client.connect();
- *
- *     // Must create tables first
- *     const tableList = ['customer', 'order_detail'];
- *     await pgNotify.config(client, tableList, 'otherSchema', 'aFunctionName', 'aChannelName');
- *
- *     await client.end();
- *
- * })();
- * @example
- * const pgNotify = require('@becual/pg-notify');
- * const pg = require('pg');
- *
- * (async () => {
- *
- *     const client = new pg.Client({connectionString: process.env.PG_CONNECTION_STRING});
- *     await client.connect();
- *
- *     // Must create tables first
- *     const tableList = ['customer', 'order_detail'];
- *     await pgNotify.config(client, tableList, null, null, 'justChannelName');
- *
- *     await client.end();
- *
- * })();
- */
-
-// config: configNotify('create'),
-// subscribe,
-// unsubscribe
-// force: configNotify('force')
-// };
