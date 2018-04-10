@@ -119,6 +119,7 @@ module.exports = (client, configObject = defaultConfig) => {
         * @returns {Promise} A promise that will implement the pg-notify config.
         *
         * @example
+        *
         *  const { Client } = require('pg');
         *  const pgNotify = require('@becual/pg-notify');
         *
