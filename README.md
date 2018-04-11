@@ -14,14 +14,14 @@ Configure and subscribe to Postgres Notify automatically for a given set of tabl
 
 
 * [pg-notify](#module_pg-notify)
-    * [~Subscribe to all database events of a given list of tables(tables)](#module_pg-notify..Subscribe to all database events of a given list of tables) ⇒ <code>EventEmitter</code>
+    * [~Subscribe to all database events of a given list of tables(tables)](#module_pg-notify..Subscribe to all database events of a given list of tables) ⇒ <code>Promise</code>
     * [~Create the functions and triggers to configure pg-notify.(tables)](#module_pg-notify..Create the functions and triggers to configure pg-notify.) ⇒ <code>Promise</code>
 
 <a name="module_pg-notify..Subscribe to all database events of a given list of tables"></a>
 
-### pg-notify~Subscribe to all database events of a given list of tables(tables) ⇒ <code>EventEmitter</code>
+### pg-notify~Subscribe to all database events of a given list of tables(tables) ⇒ <code>Promise</code>
 **Kind**: inner method of [<code>pg-notify</code>](#module_pg-notify)  
-**Returns**: <code>EventEmitter</code> - A nodejs EventEmitter which emits when any of the listed tables changes.  
+**Returns**: <code>Promise</code> - a promise wich resolves an NodeJS EventEmitter  
 
 | Param | Type | Description |
 | --- | --- | --- |

@@ -75,7 +75,7 @@ module.exports = (client, configObject = defaultConfig) => {
         /**
         * @method Subscribe to all database events of a given list of tables
         * @param {string[]} tables - An array of table names to listen
-        * @returns {EventEmitter} A nodejs EventEmitter which emits when any of the listed tables changes.
+        * @returns { Promise } a promise wich resolves an NodeJS EventEmitter
         *
         * @example
         *  const { Client }  = require('pg');
