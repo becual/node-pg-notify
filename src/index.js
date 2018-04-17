@@ -106,8 +106,6 @@ module.exports = (client, configObject = defaultConfig) => {
         *     }
         *     catch(error) {
         *         console.log(error.message);
-        *     }
-        *     finally {
         *         await client.end();
         *     }
         *  })();

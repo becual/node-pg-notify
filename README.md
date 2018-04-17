@@ -57,8 +57,6 @@ const { Client }  = require('pg');
     }
     catch(error) {
         console.log(error.message);
-    }
-    finally {
         await client.end();
     }
  })();
