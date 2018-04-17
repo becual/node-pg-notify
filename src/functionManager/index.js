@@ -2,7 +2,7 @@ const functionExist = require('./functionExist');
 const functionCreate = require('./createFunction');
 const functionDelete = require('./deleteFunction');
 
-const forceOrCreate = (force = false, channel, schema, functionName) => async (client) => {
+const forceOrCreate = (force = false, channel, schema, functionName) => async (client) => {    
     const exist = await functionExist(schema, functionName)(client);
     if (!exist) {
         await functionCreate(channel, schema, functionName)(client);
@@ -14,7 +14,7 @@ const forceOrCreate = (force = false, channel, schema, functionName) => async (c
 };
 
 module.exports = (channel = 'notify_table_change_channel',
-    schema='public',
+    schema = 'public',
     functionName = 'notify_table_change') => {
     return {
         create: forceOrCreate(false, channel, schema, functionName),
